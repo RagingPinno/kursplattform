@@ -11,8 +11,87 @@ import FilterControls from "./components/FilterControls";
 import FeaturedCourses from "./components/FeaturedCourses";
 import QuizList from "./pages/QuizList";
 import Quiz from "./pages/Quiz";
-import PrivacyPolicy from "./pages/PrivacyPolicy"; // ✅ Importera den nya sidan
-import CookieConsent from "./components/CookieConsent"; // ✅ Importera den nya komponenten
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import CookieConsent from "./components/CookieConsent";
+
+// ✅ Ny, dedikerad komponent för sidhuvudet
+const Header = ({ user, handleLogout }) => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleLoginClick = () => {
+    sessionStorage.setItem('redirectPath', location.pathname + location.search);
+    navigate('/login');
+  };
+  
+  // Stäng menyn när en länk klickas
+  const closeMenu = () => setIsMenuOpen(false);
+
+  return (
+    <header className="bg-white shadow-sm sticky top-0 z-40">
+      <nav className="container mx-auto px-4 py-3 flex justify-between items-center max-w-7xl">
+        <Link to="/" className="text-xl font-bold text-indigo-600" onClick={closeMenu}>
+          kursplattform
+        </Link>
+
+        {/* Dator-meny */}
+        <div className="hidden md:flex items-center gap-4">
+          <Link to="/quizzes" className="text-gray-600 hover:text-indigo-600 font-medium">Quiz</Link>
+          {user ? (
+            <>
+              <Link to="/my-courses" className="bg-orange-500 text-white hover:bg-orange-600 font-semibold py-2 px-4 rounded-lg text-sm transition-colors">
+                Mina kurser
+              </Link>
+              <button onClick={handleLogout} className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-lg transition-colors text-sm">
+                Logga ut
+              </button>
+            </>
+          ) : (
+            <button onClick={handleLoginClick} className="bg-indigo-600 text-white hover:bg-indigo-700 font-semibold py-2 px-4 rounded-lg text-sm transition-colors">
+              Logga in
+            </button>
+          )}
+        </div>
+
+        {/* Hamburgare-knapp för mobil */}
+        <div className="md:hidden">
+          <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-gray-600 hover:text-indigo-600">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
+            </svg>
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobil-meny (overlay) */}
+      <div className={`md:hidden fixed top-0 left-0 w-full h-full bg-white z-50 transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className="flex justify-between items-center p-4 border-b">
+           <Link to="/" className="text-xl font-bold text-indigo-600" onClick={closeMenu}>
+            kursplattform
+          </Link>
+          <button onClick={closeMenu} className="text-gray-600 hover:text-indigo-600">
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+          </button>
+        </div>
+        <div className="flex flex-col items-center gap-6 mt-8">
+          <Link to="/quizzes" className="text-lg text-gray-700 font-medium" onClick={closeMenu}>Quiz</Link>
+          {user ? (
+            <>
+              <Link to="/my-courses" className="text-lg text-gray-700 font-medium" onClick={closeMenu}>Mina kurser</Link>
+              <button onClick={() => { handleLogout(); closeMenu(); }} className="text-lg text-gray-700 font-medium">Logga ut</button>
+            </>
+          ) : (
+            <button onClick={() => { handleLoginClick(); closeMenu(); }} className="text-lg text-gray-700 font-medium">Logga in</button>
+          )}
+        </div>
+      </div>
+    </header>
+  );
+};
+
 
 function AppContent() {
   const [user, setUser] = useState(null);
@@ -26,9 +105,6 @@ function AppContent() {
     courseType: 'all',
   });
   const [sortBy, setSortBy] = useState('date');
-
-  const navigate = useNavigate();
-  const location = useLocation();
 
   useEffect(() => {
     api.get("/courses")
@@ -55,11 +131,6 @@ function AppContent() {
         course._id === updatedCourse._id ? updatedCourse : course
       )
     );
-  };
-
-  const handleLoginClick = () => {
-    sessionStorage.setItem('redirectPath', location.pathname + location.search);
-    navigate('/login');
   };
 
   const featuredCourses = useMemo(() => {
@@ -104,28 +175,8 @@ function AppContent() {
 
   return (
     <div className="bg-gray-100 min-h-screen font-sans flex flex-col">
-      <header className="bg-white shadow-sm sticky top-0 z-40">
-        <nav className="container mx-auto px-4 py-3 flex justify-between items-center max-w-7xl">
-          <Link to="/" className="text-xl font-bold text-indigo-600">kursplattform</Link>
-          <div className="flex items-center gap-4">
-            <Link to="/quizzes" className="text-gray-600 hover:text-indigo-600 font-medium">Quiz</Link>
-            {user ? (
-              <>
-                <Link to="/my-courses" className="bg-orange-500 text-white hover:bg-orange-600 font-semibold py-2 px-4 rounded-lg text-sm transition-colors">
-                  Mina kurser
-                </Link>
-                <button onClick={handleLogout} className="bg-gray-200 hover:bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-lg transition-colors text-sm">
-                  Logga ut
-                </button>
-              </>
-            ) : (
-              <button onClick={handleLoginClick} className="bg-indigo-600 text-white hover:bg-indigo-700 font-semibold py-2 px-4 rounded-lg text-sm transition-colors">
-                Logga in
-              </button>
-            )}
-          </div>
-        </nav>
-      </header>
+      {/* ✅ Den nya Header-komponenten används här */}
+      <Header user={user} handleLogout={handleLogout} />
 
       <div className="flex-grow">
         <Routes>
@@ -157,12 +208,10 @@ function AppContent() {
           />
           <Route path="/quizzes" element={<QuizList />} />
           <Route path="/quiz/:quizId" element={<Quiz />} />
-          {/* ✅ Ny route för policysidan */}
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
         </Routes>
       </div>
 
-      {/* ✅ Ny sidfot och cookie-banderoll */}
       <footer className="bg-gray-200 text-gray-600 text-sm text-center p-4">
         <div className="container mx-auto max-w-7xl">
           &copy; {new Date().getFullYear()} kursplattform | <Link to="/privacy-policy" className="hover:underline">Personuppgiftspolicy</Link>
@@ -182,3 +231,4 @@ function App() {
 }
 
 export default App;
+
