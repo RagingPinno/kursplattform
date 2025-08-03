@@ -15,8 +15,9 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CookieConsent from "./components/CookieConsent";
 import ArticlePage from "./pages/ArticlePage"; 
 import FeaturedArticles from "./components/FeaturedArticles";
-import FlashcardDecks from "./pages/FlashcardDecks"; // ✅ Importerar FlashcardDecks
-import FlashcardPage from "./pages/FlashcardPage";   // ✅ Importerar FlashcardPage
+import FlashcardDecks from "./pages/FlashcardDecks";
+import FlashcardPage from "./pages/FlashcardPage";
+import AboutPage from "./pages/AboutPage"; // ✅ Importerar den nya sidan
 
 // Dedikerad komponent för sidhuvudet
 const Header = ({ user, handleLogout }) => {
@@ -38,7 +39,6 @@ const Header = ({ user, handleLogout }) => {
           Kursplattform
         </Link>
         <div className="hidden md:flex items-center gap-4">
-          {/* ✅ Ny länk till flashcards */}
           <Link to="/flashcards" className="text-gray-600 hover:text-indigo-600 font-medium">Flashcards</Link>
           <Link to="/quizzes" className="text-gray-600 hover:text-indigo-600 font-medium">Gör ett quiz</Link>
           {user ? (
@@ -70,7 +70,6 @@ const Header = ({ user, handleLogout }) => {
           </button>
         </div>
         <div className="flex flex-col items-center gap-6 mt-8">
-          {/* ✅ Ny länk till flashcards i mobilmenyn */}
           <Link to="/flashcards" className="text-lg text-gray-700 font-medium" onClick={closeMenu}>Flashcards</Link>
           <Link to="/quizzes" className="text-lg text-gray-700 font-medium" onClick={closeMenu}>Gör ett quiz</Link>
           {user ? (
@@ -205,15 +204,17 @@ function AppContent() {
           <Route path="/quiz/:quizId" element={<Quiz />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/article/:slug" element={<ArticlePage />} />
-          {/* ✅ Nya routes för flashcards */}
           <Route path="/flashcards" element={<FlashcardDecks />} />
           <Route path="/flashcards/:deckId" element={<FlashcardPage />} />
+          {/* ✅ Ny route för Om-sidan */}
+          <Route path="/about" element={<AboutPage />} />
         </Routes>
       </div>
 
       <footer className="bg-gray-200 text-gray-600 text-sm text-center p-4">
         <div className="container mx-auto max-w-7xl">
-          &copy; {new Date().getFullYear()} Kursplattform | <Link to="/privacy-policy" className="hover:underline">Personuppgiftspolicy</Link>
+          {/* ✅ Ny länk till Om-sidan */}
+          &copy; {new Date().getFullYear()} Kursplattform | <Link to="/about" className="hover:underline">Om oss</Link> | <Link to="/privacy-policy" className="hover:underline">Personuppgiftspolicy</Link>
         </div>
       </footer>
       <CookieConsent />
