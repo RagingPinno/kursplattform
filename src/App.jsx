@@ -14,7 +14,9 @@ import Quiz from "./pages/Quiz";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CookieConsent from "./components/CookieConsent";
 import ArticlePage from "./pages/ArticlePage"; 
-import FeaturedArticles from "./components/FeaturedArticles"; // ✅ Importerar artikelkarusellen
+import FeaturedArticles from "./components/FeaturedArticles";
+import FlashcardDecks from "./pages/FlashcardDecks"; // ✅ Importerar FlashcardDecks
+import FlashcardPage from "./pages/FlashcardPage";   // ✅ Importerar FlashcardPage
 
 // Dedikerad komponent för sidhuvudet
 const Header = ({ user, handleLogout }) => {
@@ -36,6 +38,8 @@ const Header = ({ user, handleLogout }) => {
           kursplattform
         </Link>
         <div className="hidden md:flex items-center gap-4">
+          {/* ✅ Ny länk till flashcards */}
+          <Link to="/flashcards" className="text-gray-600 hover:text-indigo-600 font-medium">Flashcards</Link>
           <Link to="/quizzes" className="text-gray-600 hover:text-indigo-600 font-medium">Gör ett quiz</Link>
           {user ? (
             <>
@@ -66,6 +70,8 @@ const Header = ({ user, handleLogout }) => {
           </button>
         </div>
         <div className="flex flex-col items-center gap-6 mt-8">
+          {/* ✅ Ny länk till flashcards i mobilmenyn */}
+          <Link to="/flashcards" className="text-lg text-gray-700 font-medium" onClick={closeMenu}>Flashcards</Link>
           <Link to="/quizzes" className="text-lg text-gray-700 font-medium" onClick={closeMenu}>Gör ett quiz</Link>
           {user ? (
             <>
@@ -86,7 +92,7 @@ function AppContent() {
   const [loading, setLoading] = useState(true);
   const [allCourses, setAllCourses] = useState([]);
   const [enrollments, setEnrollments] = useState([]);
-  const [articles, setArticles] = useState([]); // ✅ State för artiklar
+  const [articles, setArticles] = useState([]);
   const [filters, setFilters] = useState({
     language: 'all',
     difficulty: 'all',
@@ -96,10 +102,9 @@ function AppContent() {
   const [sortBy, setSortBy] = useState('date');
 
   useEffect(() => {
-    // Hämta all offentlig data direkt
     Promise.all([
       api.get("/courses"),
-      api.get("/articles") // ✅ Hämta artiklar
+      api.get("/articles")
     ]).then(([coursesRes, articlesRes]) => {
       setAllCourses(coursesRes.data);
       setArticles(articlesRes.data);
@@ -107,7 +112,6 @@ function AppContent() {
       console.error("Fel vid hämtning av initial data:", err);
     });
 
-    // Lyssna på ändringar i inloggningsstatus
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
@@ -184,14 +188,6 @@ function AppContent() {
                 <FeaturedCourses courses={featuredCourses} />
                 <FeaturedArticles articles={articles} />
                 <main className="container mx-auto px-4 py-8 max-w-7xl">
-                  {/* Filterfunktionen är nu dold men finns kvar i koden */}
-                  {/* <FilterControls 
-                    courses={allCourses} 
-                    onFilterChange={setFilters} 
-                    sortBy={sortBy}
-                    onSortChange={setSortBy}
-                  /> 
-                  */}
                   <CourseList courses={processedCourses} enrollments={enrollments} />
                 </main>
               </>
@@ -209,6 +205,9 @@ function AppContent() {
           <Route path="/quiz/:quizId" element={<Quiz />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
           <Route path="/article/:slug" element={<ArticlePage />} />
+          {/* ✅ Nya routes för flashcards */}
+          <Route path="/flashcards" element={<FlashcardDecks />} />
+          <Route path="/flashcards/:deckId" element={<FlashcardPage />} />
         </Routes>
       </div>
 
