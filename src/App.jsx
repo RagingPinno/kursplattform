@@ -35,7 +35,7 @@ const Header = ({ user, handleLogout }) => {
     <header className="bg-white shadow-sm sticky top-0 z-40">
       <nav className="container mx-auto px-4 py-3 flex justify-between items-center max-w-7xl">
         <Link to="/" className="text-xl font-bold text-indigo-600" onClick={closeMenu}>
-          kursplattform
+          Kursplattform
         </Link>
         <div className="hidden md:flex items-center gap-4">
           {/* ✅ Ny länk till flashcards */}
