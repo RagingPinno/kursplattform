@@ -13,8 +13,10 @@ import QuizList from "./pages/QuizList";
 import Quiz from "./pages/Quiz";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import CookieConsent from "./components/CookieConsent";
+import ArticlePage from "./pages/ArticlePage"; 
+import FeaturedArticles from "./components/FeaturedArticles"; // ✅ Importerar artikelkarusellen
 
-// ✅ Ny, dedikerad komponent för sidhuvudet
+// Dedikerad komponent för sidhuvudet
 const Header = ({ user, handleLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const navigate = useNavigate();
@@ -25,7 +27,6 @@ const Header = ({ user, handleLogout }) => {
     navigate('/login');
   };
   
-  // Stäng menyn när en länk klickas
   const closeMenu = () => setIsMenuOpen(false);
 
   return (
@@ -34,10 +35,8 @@ const Header = ({ user, handleLogout }) => {
         <Link to="/" className="text-xl font-bold text-indigo-600" onClick={closeMenu}>
           kursplattform
         </Link>
-
-        {/* Dator-meny */}
         <div className="hidden md:flex items-center gap-4">
-          <Link to="/quizzes" className="text-gray-600 hover:text-indigo-600 font-medium">Quiz</Link>
+          <Link to="/quizzes" className="text-gray-600 hover:text-indigo-600 font-medium">Gör ett quiz</Link>
           {user ? (
             <>
               <Link to="/my-courses" className="bg-orange-500 text-white hover:bg-orange-600 font-semibold py-2 px-4 rounded-lg text-sm transition-colors">
@@ -53,31 +52,21 @@ const Header = ({ user, handleLogout }) => {
             </button>
           )}
         </div>
-
-        {/* Hamburgare-knapp för mobil */}
         <div className="md:hidden">
           <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="text-gray-600 hover:text-indigo-600">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path>
-            </svg>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16m-7 6h7"></path></svg>
           </button>
         </div>
       </nav>
-
-      {/* Mobil-meny (overlay) */}
       <div className={`md:hidden fixed top-0 left-0 w-full h-full bg-white z-50 transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="flex justify-between items-center p-4 border-b">
-           <Link to="/" className="text-xl font-bold text-indigo-600" onClick={closeMenu}>
-            kursplattform
-          </Link>
+           <Link to="/" className="text-xl font-bold text-indigo-600" onClick={closeMenu}>kursplattform</Link>
           <button onClick={closeMenu} className="text-gray-600 hover:text-indigo-600">
-            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
+            <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
           </button>
         </div>
         <div className="flex flex-col items-center gap-6 mt-8">
-          <Link to="/quizzes" className="text-lg text-gray-700 font-medium" onClick={closeMenu}>Quiz</Link>
+          <Link to="/quizzes" className="text-lg text-gray-700 font-medium" onClick={closeMenu}>Gör ett quiz</Link>
           {user ? (
             <>
               <Link to="/my-courses" className="text-lg text-gray-700 font-medium" onClick={closeMenu}>Mina kurser</Link>
@@ -92,12 +81,12 @@ const Header = ({ user, handleLogout }) => {
   );
 };
 
-
 function AppContent() {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [allCourses, setAllCourses] = useState([]);
   const [enrollments, setEnrollments] = useState([]);
+  const [articles, setArticles] = useState([]); // ✅ State för artiklar
   const [filters, setFilters] = useState({
     language: 'all',
     difficulty: 'all',
@@ -107,10 +96,18 @@ function AppContent() {
   const [sortBy, setSortBy] = useState('date');
 
   useEffect(() => {
-    api.get("/courses")
-      .then(res => setAllCourses(res.data))
-      .catch(err => console.error("Fel vid hämtning av kurser:", err));
+    // Hämta all offentlig data direkt
+    Promise.all([
+      api.get("/courses"),
+      api.get("/articles") // ✅ Hämta artiklar
+    ]).then(([coursesRes, articlesRes]) => {
+      setAllCourses(coursesRes.data);
+      setArticles(articlesRes.data);
+    }).catch(err => {
+      console.error("Fel vid hämtning av initial data:", err);
+    });
 
+    // Lyssna på ändringar i inloggningsstatus
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
       if (currentUser) {
@@ -175,7 +172,6 @@ function AppContent() {
 
   return (
     <div className="bg-gray-100 min-h-screen font-sans flex flex-col">
-      {/* ✅ Den nya Header-komponenten används här */}
       <Header user={user} handleLogout={handleLogout} />
 
       <div className="flex-grow">
@@ -186,13 +182,16 @@ function AppContent() {
             element={
               <>
                 <FeaturedCourses courses={featuredCourses} />
+                <FeaturedArticles articles={articles} />
                 <main className="container mx-auto px-4 py-8 max-w-7xl">
-                  <FilterControls 
+                  {/* Filterfunktionen är nu dold men finns kvar i koden */}
+                  {/* <FilterControls 
                     courses={allCourses} 
                     onFilterChange={setFilters} 
                     sortBy={sortBy}
                     onSortChange={setSortBy}
-                  />
+                  /> 
+                  */}
                   <CourseList courses={processedCourses} enrollments={enrollments} />
                 </main>
               </>
@@ -209,6 +208,7 @@ function AppContent() {
           <Route path="/quizzes" element={<QuizList />} />
           <Route path="/quiz/:quizId" element={<Quiz />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/article/:slug" element={<ArticlePage />} />
         </Routes>
       </div>
 
@@ -231,4 +231,3 @@ function App() {
 }
 
 export default App;
-
