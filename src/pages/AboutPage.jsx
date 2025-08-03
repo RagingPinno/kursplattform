@@ -9,7 +9,7 @@ function AboutPage() {
         
         <div className="space-y-4 text-lg text-gray-700 leading-relaxed">
           <p>
-            Välkommen! Denna plattform är ett litet hobbyprojekt, skapat med en stor passion för lärande och en ännu större nyfikenhet på artificiell intelligens.
+            Välkommen! Kursplattformen är ett litet hobbyprojekt, skapat med ett stort intresse för lärande och nyfikenhet på artificiell intelligens.
           </p>
           <p>
             Målet är enkelt: att samla och presentera intressanta kurser, utmaningar och kunskapstester för att stimulera till ökade kunskaper och en djupare förståelse för AI och digitalisering. I en värld som förändras snabbt är livslångt lärande inte bara en möjlighet, utan en nödvändighet.
@@ -18,7 +18,7 @@ function AboutPage() {
           <div className="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg my-6">
             <h2 className="text-xl font-semibold text-indigo-800">Byggd med AI</h2>
             <p className="mt-1 text-indigo-700">
-              En rolig detalj är att hela denna tjänst – från backend-logik i Node.js till frontend-komponenter i React – har byggts med hjälp av en AI-assistent som en aktiv samarbetspartner i kodningen. Det är ett levande exempel på hur AI kan användas som ett kraftfullt verktyg för att förverkliga idéer.
+              En rolig detalj är att hela tjänsten – från backend-logik i Node.js till frontend-komponenter i React – har byggts med hjälp av en AI-assistent som en aktiv samarbetspartner i kodningen. Det är ett levande exempel på hur AI kan användas som ett kraftfullt verktyg för att förverkliga idéer.
             </p>
           </div>
           
