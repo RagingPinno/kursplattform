@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <!-- Huvudsidor -->
+  <url>
+    <loc>https://kursplattform.netlify.app/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://kursplattform.netlify.app/flashcards</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://kursplattform.netlify.app/quizzes</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://kursplattform.netlify.app/about</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://kursplattform.netlify.app/privacy-policy</loc>
+    <priority>0.5</priority>
+  </url>
+
+  <!-- Artiklar (lägg till fler här) -->
+  <url>
+    <loc>https://kursplattform.netlify.app/article/ai-historia</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://kursplattform.netlify.app/article/hur-ai-paverkar-oss</loc>
+    <priority>0.9</priority>
+  </url>
+  
+  <!-- Exempel på hur du lägger till kurser (dessa måste genereras dynamiskt i framtiden) -->
+  <!--
+  <url>
+    <loc>https://kursplattform.netlify.app/course/DITT_KURS_ID_HÄR</loc>
+    <priority>0.8</priority>
+  </url>
+  -->
+
+</urlset>

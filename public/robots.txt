@@ -1,0 +1,15 @@
+# Denna fil talar om för sökmotorer vilka delar av webbplatsen de får besöka.
+# En stjärna (*) betyder att reglerna gäller för alla robotar (t.ex. Googlebot, Bingbot).
+User-agent: *
+
+# "Disallow" används för att blockera specifika delar.
+# Blockera inloggningssidan och privata användarsidor från att indexeras.
+Disallow: /login
+Disallow: /my-courses
+
+# "Allow" talar om vilka delar som är tillåtna. Ett snedstreck (/) betyder "hela webbplatsen".
+# Eftersom vi har specificerat vad som är blockerat, tillåter denna regel allt annat.
+Allow: /
+
+# När du har en sitemap kan du lägga till en länk till den här.
+# Sitemap: https://kursplattform.netlify.app/sitemap.xml
