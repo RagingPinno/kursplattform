@@ -135,7 +135,7 @@ function CourseList({ courses, enrollments }) {
   if (!courses || courses.length === 0) {
     return (
       <div className="text-center py-20 bg-white rounded-lg shadow-md">
-        <p className="text-gray-500 text-lg">Inga kurser hittades med de valda filtren.</p>
+        <p className="text-gray-500 text-lg">Vänta på att sidan laddas, servern värmer upp.</p>
       </div>
     );
   }
