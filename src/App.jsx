@@ -36,7 +36,7 @@ const Header = ({ user, handleLogout }) => {
     <header className="bg-white shadow-sm sticky top-0 z-40">
       <nav className="container mx-auto px-4 py-3 flex justify-between items-center max-w-7xl">
         <Link to="/" className="text-xl font-bold text-indigo-600" onClick={closeMenu}>
-          Kursplattform
+          Kursplattform (AI)
         </Link>
         <div className="hidden md:flex items-center gap-4">
           <Link to="/flashcards" className="text-gray-600 hover:text-indigo-600 font-medium">Flashcards</Link>
@@ -64,7 +64,7 @@ const Header = ({ user, handleLogout }) => {
       </nav>
       <div className={`md:hidden fixed top-0 left-0 w-full h-full bg-white z-50 transform transition-transform duration-300 ease-in-out ${isMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="flex justify-between items-center p-4 border-b">
-           <Link to="/" className="text-xl font-bold text-indigo-600" onClick={closeMenu}>Kursplattform</Link>
+           <Link to="/" className="text-xl font-bold text-indigo-600" onClick={closeMenu}>Kursplattform (AI)</Link>
           <button onClick={closeMenu} className="text-gray-600 hover:text-indigo-600">
             <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
           </button>
@@ -214,7 +214,7 @@ function AppContent() {
       <footer className="bg-gray-200 text-gray-600 text-sm text-center p-4">
         <div className="container mx-auto max-w-7xl">
           {/* ✅ Ny länk till Om-sidan */}
-          &copy; {new Date().getFullYear()} Kursplattform | <Link to="/about" className="hover:underline">Om oss</Link> | <Link to="/privacy-policy" className="hover:underline">Personuppgiftspolicy</Link>
+          &copy; {new Date().getFullYear()} Kursplattform (AI) | <Link to="/about" className="hover:underline">Om oss</Link> | <Link to="/privacy-policy" className="hover:underline">Personuppgiftspolicy</Link>
         </div>
       </footer>
       <CookieConsent />
