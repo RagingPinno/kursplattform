@@ -18,12 +18,15 @@ function AboutPage() {
           <div className="bg-indigo-50 border-l-4 border-indigo-500 p-4 rounded-r-lg my-6">
             <h2 className="text-xl font-semibold text-indigo-800">Byggd med AI</h2>
             <p className="mt-1 text-indigo-700">
-              En rolig detalj är att hela tjänsten – från backend-logik i Node.js till frontend-komponenter i React – har byggts med hjälp av en AI-assistent som en aktiv samarbetspartner i kodningen. Det är ett levande exempel på hur AI kan användas som ett kraftfullt verktyg för att förverkliga idéer.
+              En rolig detalj är att hela tjänsten – från backend-logik till frontend-komponenter, och eget innehåll – har byggts tillsamans med AI-assistenter som aktiva samarbetspartners. Det är ett levande exempel på hur AI kan användas som ett kraftfullt verktyg för att förverkliga idéer.
+            </p>
+            <p className="mt-1 text-indigo-700">
+              AI kan ibland hallucinera, ett välkänt problem hos stora språkmodeller. Kursplattformens egna material, som flashcards och quiz, kan därför innehålla fel. Säkerställ alltid att dina kunskaper bygger på kvalitetsgranskade och aktuella kurser.
             </p>
           </div>
           
           <p>
-            Vi hoppas att du hittar något som väcker din nyfikenhet och inspirerar dig på din egen lärresa.
+            Vi hoppas att du hittar något som väcker din nyfikenhet och inspirerar dig på din egen lärresa!
           </p>
         </div>
 
